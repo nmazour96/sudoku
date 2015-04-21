@@ -24,6 +24,11 @@ class Grid(object):
 		Meaning: _contents is a List of Lists that creates a grid.
 		Invariants: _contents is a List of 9 Lists of length 9.
 		"""
+	def _fill(self):
+		for i in range(9):
+			for j in range(9):
+				self._contents[i[j]] = random.randint(1,9)
+
 
 	def _check_row(self, row, value):
 		"""
