@@ -1,8 +1,6 @@
 #! /usr/bin/python
-from __future__ import division
-import math
 import random
-import numpy as np
+from Numberjack import *
 
 class Grid(object):
 	"""
@@ -27,52 +25,15 @@ class Grid(object):
 		Meaning: _contents is a List of Lists that creates a grid.
 		Invariants: _contents is a List of 9 Lists of length 9.
 		"""
+	def _check(self):
+		for i in range(9):
+			AllDiff([e._contents[i][a] for a in range(9)])
+			AllDiff([e._contents[b][i] for b in range(9)])
+			AllDiff([e._contents[c][d] for c in range(3) for d in range(3)])
+			AllDiff([e._contents[c][d] for c in range(3:6) for d in range(3:6)]) # colons not for specified ranges, fix later
+			AllDiff([e._contents[c][d] for c in range(6:9) for d in range(6:9)])
+			
 	
-	def _check_row(self, row, value):
-		"""
-		Invocation: ._check_row(row, value)
-		Meaning: Check that there is not already value in that row.
-		Preconditions: row is a number 0 through 8 and value is a number 1 through 9.
-		Postconditions: The result is True if there is not the same number in that row and False otherwise.
-		"""
-		i = 0
-		while i <= 8:		
-			if value != self._contents[row[i]]:
-				i = i + 1
-			else:
-				return False
-		return True
-		
-	def _check_column(self, column, value):
-		"""
-		Invocation: ._check_column(column, value)
-		Meaning: Check that there is not already value in that column.
-		Preconditions: column is a number 0 through 8 and value is a number 1 through 9.
-		Postconditions: The result is True if there is not the same number in that column and False otherwise.
-		"""
-		while i <= 8:
-			if value != self._contents[i[column]]:
-				i = i + 1
-			else:
-				return False
-		return True
-				
-	def _put(self, row, column):
-		"""
-		Invocation: ._put(row, column, value)
-		Meaning: Put a value into a specified place in the grid.
-		Preconditions: row and column are each a number 0 through 8 and value is a number 1 through 9 and there is not already a value at that location.
-		Postconditions: The result is None and value is placed at the coordinates.
-		"""
-		value = 7
-		if self._check_row(row, value) == False:
-			return repr(['There is already a ' + value + ' in this row'])
-		if self._check_column(column, value) == False:
-			return repr(['There is already a ' + value + ' in this column'])
-		if self._contents[row[column]] == None:
-			self._contents[row[column]] = value
-		return repr(['There is already a value at ' + self._contents[row[column]]])
-				
 	def __repr__(self):
 		"""
 		Invocation: print Grid
@@ -89,6 +50,8 @@ random.randint(1, 9) # stores a random number between, and including, 1 and 9.
 
 e = Grid([])
 print e
+
+
 """
 Class: Grid
 
