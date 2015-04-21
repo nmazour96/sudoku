@@ -18,18 +18,16 @@ class Grid(object):
 		Postconditions: The returned value is a 9 by 9 grid.
 		"""
 		self._contents = [[None for i in range(9)] for j in range(9)]
+		for i in range(9):
+			for j in range(9):
+				self._contents[i][j] = random.randint(1, 9)
 		"""
 		Field: _contents
 		Type: _contents is a list of lists.
 		Meaning: _contents is a List of Lists that creates a grid.
 		Invariants: _contents is a List of 9 Lists of length 9.
 		"""
-	def _fill(self):
-		for i in range(9):
-			for j in range(9):
-				self._contents[i[j]] = random.randint(1,9)
-
-
+	
 	def _check_row(self, row, value):
 		"""
 		Invocation: ._check_row(row, value)
@@ -38,12 +36,13 @@ class Grid(object):
 		Postconditions: The result is True if there is not the same number in that row and False otherwise.
 		"""
 		i = 0
-		while i <= 9:		
+		while i <= 8:		
 			if value != self._contents[row[i]]:
 				i = i + 1
 			else:
 				return False
 		return True
+		
 	def _check_column(self, column, value):
 		"""
 		Invocation: ._check_column(column, value)
@@ -51,7 +50,7 @@ class Grid(object):
 		Preconditions: column is a number 0 through 8 and value is a number 1 through 9.
 		Postconditions: The result is True if there is not the same number in that column and False otherwise.
 		"""
-		while i <= 9:
+		while i <= 8:
 			if value != self._contents[i[column]]:
 				i = i + 1
 			else:
@@ -81,10 +80,15 @@ class Grid(object):
 		Preconditions: None
 		Postconditions: The returned value is the List of Lists formed into a grid.
 		"""
-		return repr(self._contents)
+		result = ""
+		for i in range(9):
+			result = result + str(self._contents[i]) + "\n"
+		return result
 
 random.randint(1, 9) # stores a random number between, and including, 1 and 9.
 
+e = Grid([])
+print e
 """
 Class: Grid
 
