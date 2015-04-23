@@ -1,6 +1,7 @@
 #! /usr/bin/python
 import random
 from Numberjack import *
+import numpy as np
 
 class Grid(object):
 	"""
@@ -15,10 +16,11 @@ class Grid(object):
 		Preconditions: list should be a List of 9 Lists of length 9.
 		Postconditions: The returned value is a 9 by 9 grid.
 		"""
-		self._contents = [[None for i in range(9)] for j in range(9)]
+		self._contents = # [[0 for i in range(9)] for j in range(9)] change to matrix  numberjack.Matrix(9, 9)?
 		for i in range(9):
 			for j in range(9):
 				self._contents[i][j] = random.randint(1, 9)
+				self._check()
 		"""
 		Field: _contents
 		Type: _contents is a list of lists.
@@ -26,14 +28,40 @@ class Grid(object):
 		Invariants: _contents is a List of 9 Lists of length 9.
 		"""
 	def _check(self):
-		for i in range(9):
-			AllDiff([e._contents[i][a] for a in range(9)])
-			AllDiff([e._contents[b][i] for b in range(9)])
-			AllDiff([e._contents[c][d] for c in range(3) for d in range(3)])
-			AllDiff([e._contents[c][d] for c in range(3:6) for d in range(3:6)]) # colons not for specified ranges, fix later
-			AllDiff([e._contents[c][d] for c in range(6:9) for d in range(6:9)])
-			
+		model = Model(
+			AllDiff([self._contents[0][c] for c in range(9)]),
+			AllDiff([self._contents[1][c] for c in range(9)]),
+			AllDiff([self._contents[2][c] for c in range(9)]),
+			AllDiff([self._contents[3][c] for c in range(9)]),
+			AllDiff([self._contents[4][c] for c in range(9)]),
+			AllDiff([self._contents[5][c] for c in range(9)]),
+			AllDiff([self._contents[6][c] for c in range(9)]),
+			AllDiff([self._contents[7][c] for c in range(9)]),
+			AllDiff([self._contents[8][c] for c in range(9)]),
+			AllDiff([self._contents[c][0] for c in range(9)]),
+			AllDiff([self._contents[c][1] for c in range(9)]),
+			AllDiff([self._contents[c][2] for c in range(9)]),
+			AllDiff([self._contents[c][3] for c in range(9)]),
+			AllDiff([self._contents[c][4] for c in range(9)]),
+			AllDiff([self._contents[c][5] for c in range(9)]),
+			AllDiff([self._contents[c][6] for c in range(9)]),
+			AllDiff([self._contents[c][7] for c in range(9)]),
+			AllDiff([self._contents[c][8] for c in range(9)]),
+			AllDiff([self._contents[c][d] for c in range(3) for d in range(3)]),
+			AllDiff([self._contents[c][d] for c in range(3, 6) for d in range(3)]),
+			AllDiff([self._contents[c][d] for c in range(6, 9) for d in range(3)]),
+			AllDiff([self._contents[c][d] for c in range(3) for d in range(3, 6)]),
+			AllDiff([self._contents[c][d] for c in range(3, 6) for d in range(3, 6)]),
+			AllDiff([self._contents[c][d] for c in range(6, 9) for d in range(3, 6)]),
+			AllDiff([self._contents[c][d] for c in range(3) for d in range(6, 9)]),
+			AllDiff([self._contents[c][d] for c in range(3, 6) for d in range(6, 9)]),
+			AllDiff([self._contents[c][d] for c in range(6, 9) for d in range(6, 9)])
+			)
+		return model, self._contents
 	
+	def _solve(self, param):
+		
+
 	def __repr__(self):
 		"""
 		Invocation: print Grid
@@ -50,7 +78,6 @@ random.randint(1, 9) # stores a random number between, and including, 1 and 9.
 
 e = Grid([])
 print e
-
 
 """
 Class: Grid
