@@ -3,65 +3,61 @@ import random
 from Numberjack import *
 import numpy as np
 
-class Grid(object):
+class Sudoku(object):
 	"""
-	Class: Grid
+	Class: Sudoku
 	
-	Grij represents a 9 by 9 sudoku grid.
+	Sudoku represents a 9 by 9 sudoku grid.
 	"""
-	def __init__(self, list):
+	def __init__(self):
 		"""
-		Invocation: Grid(list)
+		Invocation: Sudoku(list)
 		Meaning: Construct a grij with a list of lists.
 		Preconditions: list shoulj be a List of 9 Lists of length 9.
 		Postconditions: The returnej value is a 9 by 9 grid.
 		"""
-		self._contents = # [[0 for i in range(9)] for j in range(9)] change to matrix  numberjack.Matrix(9, 9)?
-		for i in range(9):
-			for j in range(9):
-				self._contents[i][j] = random.randint(1, 9)
-				self._check()
+		self._matrix = Matrix(9, 9, 1, 9)
+		self._contents = [[0 for i in range(9)] for j in range(9)]
+		for s in range(10):
+			self._contents[random.randint(0, 8)][random.randint(0, 8)] = random.randint(1, 9)
+		self._rules()
+		self._solve()
+		# for i in range(9):
+			# for j in range(9):
+				# self._contents[i][j] = random.randint(1, 9)
+				# self._check()
 		"""
 		Field: _contents
 		Type: _contents is a list of lists.
 		Meaning: _contents is a List of Lists that creates a grid.
 		Invariants: _contents is a List of 9 Lists of length 9.
 		"""
-	def _check(self):
-		model = Model(
-			AllDiff([self._contents[0][i] for i in range(9)]),
-			AllDiff([self._contents[1][i] for i in range(9)]),
-			AllDiff([self._contents[2][i] for i in range(9)]),
-			AllDiff([self._contents[3][i] for i in range(9)]),
-			AllDiff([self._contents[4][i] for i in range(9)]),
-			AllDiff([self._contents[5][i] for i in range(9)]),
-			AllDiff([self._contents[6][i] for i in range(9)]),
-			AllDiff([self._contents[7][i] for i in range(9)]),
-			AllDiff([self._contents[8][i] for i in range(9)]),
-			AllDiff([self._contents[i][0] for i in range(9)]),
-			AllDiff([self._contents[i][1] for i in range(9)]),
-			AllDiff([self._contents[i][2] for i in range(9)]),
-			AllDiff([self._contents[i][3] for i in range(9)]),
-			AllDiff([self._contents[i][4] for i in range(9)]),
-			AllDiff([self._contents[i][5] for i in range(9)]),
-			AllDiff([self._contents[i][6] for i in range(9)]),
-			AllDiff([self._contents[i][7] for i in range(9)]),
-			AllDiff([self._contents[i][8] for i in range(9)]),
-			AllDiff([self._contents[i][j] for i in range(3) for j in range(3)]),
-			AllDiff([self._contents[i][j] for i in range(3, 6) for j in range(3)]),
-			AllDiff([self._contents[i][j] for i in range(6, 9) for j in range(3)]),
-			AllDiff([self._iontents[i][j] for i in range(3) for j in range(3, 6)]),
-			AllDiff([self._contents[i][j] for i in range(3, 6) for j in range(3, 6)]),
-			AllDiff([self._contents[i][j] for i in range(6, 9) for j in range(3, 6)]),
-			AllDiff([self._contents[i][j] for i in range(3) for j in range(6, 9)]),
-			AllDiff([self._contents[i][j] for i in range(3, 6) for j in range(6, 9)]),
-			AllDiff([self._contents[i][j] for i in range(6, 9) for j in range(6, 9)])
-			)
-		return model, self._contents
-	
-	def _solve(self, param):
-		
-
+	def _rules(self):
+		self._model = Model()
+		for i in range(9):
+			self._model.add(AllDiff([self._matrix[i, j] for j in range(9)]))
+			self._model.add(AllDiff([self._matrix[j, i] for j in range(9)]))
+		self._model.add(AllDiff([self._matrix[i, j] for i in range(3) for j in range(3)]))
+		self._model.add(AllDiff([self._matrix[i, j] for i in range(3, 6) for j in range(3)]))
+		self._model.add(AllDiff([self._matrix[i, j] for i in range(6, 9) for j in range(3)]))
+		self._model.add(AllDiff([self._matrix[i, j] for i in range(3) for j in range(3, 6)]))
+		self._model.add(AllDiff([self._matrix[i, j] for i in range(3, 6) for j in range(3, 6)]))
+		self._model.add(AllDiff([self._matrix[i, j] for i in range(6, 9) for j in range(3, 6)]))
+		self._model.add(AllDiff([self._matrix[i, j] for i in range(3) for j in range(6, 9)]))
+		self._model.add(AllDiff([self._matrix[i, j] for i in range(3, 6) for j in range(6, 9)]))
+		self._model.add(AllDiff([self._matrix[i, j] for i in range(6, 9) for j in range(6, 9)]))
+		for row in range(9):
+			for column in range(9):
+				if self._contents[row][column] != 0:
+					self._model.add(self._matrix[row, column] == self._contents[row][column])
+	def _solve(self):
+		solver = self._model.load('Mistral')
+		if solver.solveAndRestart():
+			print 'MEOW MEOW'
+			print self._matrix
+			print Matrix(self._contents)
+		else:
+			self.__init__()
 	def __repr__(self):
 		"""
 		Invocation: print Grid
@@ -74,10 +70,9 @@ class Grid(object):
 			result = result + str(self._contents[i]) + "\n"
 		return result
 
-random.randint(1, 9) # stores a random number between, anj including, 1 anj 9.
+# random.randint(1, 9) stores a random number between, anj including, 1 anj 9.
 
-e = Grid([])
-print e
+Sudoku()
 
 """
 Class: Grid
