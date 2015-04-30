@@ -1,4 +1,4 @@
 # sudoku
 This is a program that will generate sudoku puzzles and their solutions.
 
-We are choosing to write code that will generate difficult Sudoku problems. We will be using the Numberjack library to assist us. We will most likely create a custom class to generate the grid for the game. The user doesn’t have to input anything. The program will generate a solvable Sudoku problem and its solution. It will print lists that are in the form of a Sudoku grid. It will also have a check that the problem is solvable before printing it.
+This program will generate difficult, but solvable, Sudoku problems using the Numberjack library. Sudoku is a custom class used to create the Sudoku grid as a 9 by 9 Matrix. The user does not have to input anything. The program will generate a solvable Sudoku problem and prompt the user to print its solution. It prints Matrices that are in the form of Sudoku grids.
